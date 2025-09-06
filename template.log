@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.11)  6 SEP 2025 20:16
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.11)  7 SEP 2025 03:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1137,8 +1137,8 @@ Underfull \hbox (badness 10000) in alignment at lines 238--238
 [5]
 File: figures/spearman5.png Graphic file (type bmp)
 <figures/spearman5.png>
-File: figures/Y-BMI散点.png Graphic file (type bmp)
-<figures/Y-BMI散点.png>
+File: figures/Y-BMI散点图.png Graphic file (type bmp)
+<figures/Y-BMI散点图.png>
 File: figures/Y-天数散点.png Graphic file (type bmp)
 <figures/Y-天数散点.png>
 
@@ -1153,18 +1153,10 @@ File: figures/Y染色体浓度正态.png Graphic file (type bmp)
 [7]
 File: figures/广义可加结果.png Graphic file (type bmp)
 <figures/广义可加结果.png>
-File: figures/spearman1.png Graphic file (type bmp)
-<figures/spearman1.png>
-File: figures/spearman2.png Graphic file (type bmp)
-<figures/spearman2.png>
-File: figures/spearman3.png Graphic file (type bmp)
-<figures/spearman3.png>
-File: figures/spearman4.png Graphic file (type bmp)
-<figures/spearman4.png>
 
 
 LaTeX Font Warning: Font shape `TU/SimSun(1)/m/it' undefined
-(Font)              using `TU/SimSun(1)/m/n' instead on input line 379.
+(Font)              using `TU/SimSun(1)/m/n' instead on input line 358.
 
 
 
@@ -1174,21 +1166,28 @@ LaTeX Font Warning: Font shape `TU/SimSun(1)/m/it' undefined
 
 [10]
 
-[11] (./template.bbl
+[11]
+File: figures/ROC曲线.png Graphic file (type bmp)
+<figures/ROC曲线.png>
+
+
+[12]
+
+[13] (./template.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 14.
 
 )
 
-[12] (d:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+[14] (d:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 621.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 727.
  (./code/q1.m) (d:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (./code/q2.py)
 
-[13] (./template.aux)
+[15] (./template.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1200,22 +1199,16 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were multiply-defined labels.
 
-
-Package rerunfilecheck Warning: File `template.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `template.out':
-(rerunfilecheck)             Before: 1B70B19C7AD4AAE78D5E942C963864B4;4382
-(rerunfilecheck)             After:  0A552A5B50B8C16383C74257694B865D;5151.
+Package rerunfilecheck Info: File `template.out' has not changed.
+(rerunfilecheck)             Checksum: 1B57224EA2398739EADD12A48CE37B8C;5175.
  ) 
 Here is how much of TeX's memory you used:
- 35030 strings out of 475796
- 723744 string characters out of 5774033
- 1299483 words of memory out of 5000000
- 57268 multiletter control sequences out of 15000+600000
- 573053 words of font info for 166 fonts, out of 8000000 for 9000
+ 35089 strings out of 475796
+ 727807 string characters out of 5774033
+ 1300965 words of memory out of 5000000
+ 57328 multiletter control sequences out of 15000+600000
+ 573069 words of font info for 168 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  108i,12n,125p,1801b,1797s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on template.pdf (13 pages).
+Output written on template.pdf (15 pages).

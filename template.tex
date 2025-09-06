@@ -258,7 +258,7 @@
 
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=0.7\textwidth]{figures/Y-BMI散点.png} 
+		\includegraphics[width=0.7\textwidth]{figures/Y-BMI散点图.png} 
 		\caption{Y染色体浓度-孕妇BMI散点图}
 		\label{Y-BMI散点}
 	\end{figure}
@@ -340,28 +340,7 @@
 
 %%%
 
-	\begin{figure}[ht]
-		\centering
-		\subcaptionbox{孕妇状态和临床指标的相关系数矩阵\label{fig:双图a}}
-		{\includegraphics[width=.45\textwidth]{figures/spearman1.png}}
-		\hfill % 让两个子图尽可能分开
-		\subcaptionbox{测序质量指标的相关系数矩阵\label{fig:双图b}}
-		{\includegraphics[width=.45\textwidth]{figures/spearman2.png}}
-		\caption{检测与临床指标相关系数分析矩阵}
-		\label{fig:双图}
-	\end{figure}
 
-
-	\begin{figure}[ht]
-		\centering
-		\subcaptionbox{染色体相关指标的相关系数矩阵\label{fig:双图a}}
-		{\includegraphics[width=.45\textwidth]{figures/spearman3.png}}
-		\hfill % 让两个子图尽可能分开
-		\subcaptionbox{Y染色体浓度的相关系数矩阵\label{fig:双图b}}
-		{\includegraphics[width=.45\textwidth]{figures/spearman4.png}}
-		\caption{染色体相关系数分析矩阵}
-		\label{fig:双图}
-	\end{figure}
 
 
 %%%
@@ -480,7 +459,7 @@
 	\end{equation}
 
 	\begin{equation}
-	P(y=1 \mid x, w, b)
+	P(y=1 \mid x)
 	\end{equation}
 
 
@@ -557,17 +536,133 @@
 
 
 	\subsubsection{逐步逻辑回归}
+	使用向前逐步法输入变量，逐步纳入显著变量，最终纳入的变量顺序与结果：
+	\begin{description}
+		\item[Step 1：] 输入18号染色体的Z值（显著）
+		\item[Step 2：] 加入ZX染色体浓度（显著）
+		\item[Step 3：] 加入Z13号染色体的GC含量（显著）
+		\item[Step 4：] 加入Z孕妇BMI（显著） 
+	\end{description}
+
+
+	最终建议的候选变量：18号染色体的Z值、ZX染色体浓度、Z13号染色体的GC含量、Z孕妇BMI
+	Z年龄($ p \approx 0.066 $)有近显著性，可选择性纳入，查看模型是否得到改善。
+	13号染色体的 Z 值：在最后一步 p=0.065（>0.05），可能因与 18 号 Z 值共线而被替代，进行剔除处理。
+	Z唯一比对的读段数：p=0.076。p值较小，显著性较低，进行剔除处理。
+
+	\subsection{模型建立与求解}
+
+	将逐步筛选后的5个变量，(@18号染色体的Z值，ZX染色体浓度，Z@13号染色体的GC含量，Z孕妇BMI，Z年龄)一次
+	性输入，分别设为$\displaystyle x_{1}\sim x_{5}$，建立如下模型，并对模型性能进行多项评估。
+
+	\begin{equation*}
+	\label{logit}
+	\text{Logit}(P) = 2.106 + 0.925 \cdot x_{1} - 0.823 \cdot x_{2} + 0.442 \cdot x_{3} - 0.148 \cdot x_{4} - 0.202 \cdot x_{5}
+	\end{equation*}
+
+	\begin{equation*}
+	P = \frac{1}{1 + e^{-\mathrm{Logit}(P)}}
+	\end{equation*}
+
+	$P\geq0.1337625 $，认为异常。
+
+
+	回归系数
+
+
+	默认阈值 $0.5$ 下的分类表显示：
+
+	对阴性样本（是否异常$=0$）预测正确率非常高 $97.2\%$（但阴性样本占比大）。对阳性样本（是否异常$=1$）预测正确率低，
+	仅 $33.0\%$ $\rightarrow$ 表明模型对异常（阳性）的敏感性差。总体准确率 $84.9\%$，但被类别不平衡掩盖（阴性远多于
+	阳性）。
+
+	
+
+	\begin{table}[!ht]
+		\centering
+		\begin{tabular}{|l|l|l|}
+		\hline
+			模型检验 & 结果 & 解释 \\ \hline
+			Omnibus检验 & $\chi^2 = 112.924$, $p < 0.001$ & 整体模型显著优于空模型 \\ \hline
+			Nagelkerke & $R^2 = 0.338$ & 模型可解释约 34\% 的变异 \\ \hline
+			Hosmer-Lemeshow 拟合优度检验 & $\chi^2 = 8.999$, $p = 0.342$ → $p > 0.05$ & 模型拟合尚可，无明显差异\\ \hline
+		\end{tabular}
+	\end{table}
+
+
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.5\textwidth]{figures/ROC曲线.png} 
+		\caption{ROC曲线图}
+		\label{ROC曲线}
+	\end{figure}
+
+
+	
+	
 
 
 
-	\subsection{模型建立}
 
 
+	\subsection{模型微调}
 
+	为探索变量间复杂的交互效应，我们基于生物学常识引入了‘年龄与BMI的交互项’（$Z_{\text{年龄}} \times Z_{\text{孕妇BMI}}$）进行测试。结果表明，
+	该交互项效应不具有统计学意义（$p=0.112$）。根据模型简洁性原则，我们最终保留了不含交互项的初始模型，该模型具有更佳的稳
+	定性和可解释性
 
+	加了年龄的平方之后的模型结果显示，$Z_{\text{年龄}}$和$Z^{2}_{\text{年龄}}$两个变量都变得高度显著（$p=0.000$），这种“负的线性
+	项 + 正的二次项”的组合，清晰地表明了一种“U型”关系：胎儿异常的风险先随着孕妇年龄的增加而下降，到达一个最低点（谷底）后
+	，又随着孕妇年龄的继续增加而上升.
+	已知数据：
+	\begin{itemize}
+		\item 	$Z_{\text{年龄}} $ 的系数  $B_{1} = -4.847$
+		\item 	$Z^{2}_{\text{年龄}}$ 的系数 $B_{2} = 4.729$
+		\item 	原始年龄的均值 $\bar{y} = 29.92 $岁
+		\item 	原始年龄的标准差 $S = 4.303 $岁
+	\end{itemize}
 
+	待求值：风险最低的实际年龄
 
-	\subsection{模型求解}
+	通过Z值拐点即$Y_{Z}$转换计算:
+	\begin{equation}
+	Y_{Z} = -\frac{B_1}{2 \times B_2} = -\frac{-4.847}{2 \times 4.729} = \frac{4.847}{9.458} \approx 0.512
+	\end{equation}
+
+	转换为实际年龄$Y$：
+
+	\begin{equation}
+	\text{Y} = \bar{y} + (Y_{\text{Z}} \times S) = 29.92 + (0.512 \times 4.303)
+	\end{equation}
+
+	通过二次函数直接计算
+
+	计算系数 $a$ 和 $b$：
+	\begin{align}
+	a &= \frac{B_2}{S^2} = \frac{4.729}{(4.303)^2} \approx \frac{4.729}{18.516} \approx 0.255 \\
+	b &= \frac{B_1 - 2 \times B_2 \times \frac{\bar{y}}{S}}{S} = \frac{-4.847 - 2 \times 4.729 \times \frac{29.92}{4.303}}{4.303} \approx -16.41
+	\end{align}
+
+	计算拐点：
+	\begin{align}
+	Y = -\frac{b}{2a} = -\frac{-16.41}{2 \times 0.255} = \frac{16.41}{0.51} \approx 32.176
+	\end{align}
+
+	最终结论
+	两种方法的计算结果高度一致（$32.12$ vs $32.18$），确认了结果的可靠性。
+
+	在研究人群中，怀有异常女胎的风险最低的孕妇年龄为  $\thickapprox 32.2$ 岁。
+
+	这是一个非常重要的U型关系：
+
+	\begin{itemize}
+	\item 轻孕妇（$<32.2$岁）：胚胎的风险随年龄增加而下降
+	\item 最佳年龄（ $32.2$岁左右）：胚胎的风险达到最低点
+	\item 高龄孕妇（$>32.2$岁）：胚胎的风险随年龄增加而上升
+	\end{itemize}
+
+	这一发现揭示了孕妇年龄与异常风险之间复杂的非线性关系，为临床咨询和风
+	险评估提供了更精确的科学依据。
 
 
 

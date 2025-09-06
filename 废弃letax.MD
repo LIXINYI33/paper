@@ -145,3 +145,26 @@ Prob > F  & 0.0000 \\
 均方根误差 & 0.0324 \\  \hline
 \end{tabular}	
 \end{table}
+
+	\begin{figure}[ht]
+		\centering
+		\subcaptionbox{孕妇状态和临床指标的相关系数矩阵\label{fig:双图a}}
+		{\includegraphics[width=.45\textwidth]{figures/spearman1.png}}
+		\hfill % 让两个子图尽可能分开
+		\subcaptionbox{测序质量指标的相关系数矩阵\label{fig:双图b}}
+		{\includegraphics[width=.45\textwidth]{figures/spearman2.png}}
+		\caption{检测与临床指标相关系数分析矩阵}
+		\label{fig:双图}
+	\end{figure}
+
+
+	\begin{figure}[ht]
+		\centering
+		\subcaptionbox{染色体相关指标的相关系数矩阵\label{fig:双图a}}
+		{\includegraphics[width=.45\textwidth]{figures/spearman3.png}}
+		\hfill % 让两个子图尽可能分开
+		\subcaptionbox{Y染色体浓度的相关系数矩阵\label{fig:双图b}}
+		{\includegraphics[width=.45\textwidth]{figures/spearman4.png}}
+		\caption{染色体相关系数分析矩阵}
+		\label{fig:双图}
+	\end{figure}
