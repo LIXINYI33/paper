@@ -228,3 +228,21 @@ Prob > F  & 0.0000 \\
 		F1-Score & 57.2\% \\ \hline
 		\end{tabular}
 	\end{table}
+
+
+	
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.7\textwidth]{figures/Y-BMI散点图.png} 
+		\caption{Y染色体浓度-孕妇BMI散点图}
+		\label{Y-BMI散点}
+	\end{figure}
+	通过散点图可知Y染色体浓度与孕妇BMI无明显的线性关系。
+
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.7\textwidth]{figures/Y-天数散点.png} 
+		\caption{Y染色体浓度-怀孕天数散点图}
+		\label{Y-天数散点}
+	\end{figure}
+	通过散点图可知Y染色体浓度与怀孕天数无明显的线性关系。

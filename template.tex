@@ -239,7 +239,7 @@
 	\end{table}
 
 
-	\subsection{针对问题一的相关性分析}
+	\subsection{数据侧写}
 
 	为了探究孕妇的Y染色体浓度与多种因素之间的关系，我们首先进行斯皮尔曼相关系数分析。优先考虑与孕妇身体状态相关
 	的各因素对Y染色体浓度的影响。对年龄，身高，体重，IVF妊娠方式，检测孕周数，孕妇BMI，怀孕次数，生产次数与Y染色体浓度
@@ -256,21 +256,19 @@
 	年龄，身高体重，孕妇BMI和检测孕周天数。
 
 
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=0.7\textwidth]{figures/Y-BMI散点图.png} 
-		\caption{Y染色体浓度-孕妇BMI散点图}
-		\label{Y-BMI散点}
-	\end{figure}
-	通过散点图可知Y染色体浓度与孕妇BMI无明显的线性关系。
 
-	\begin{figure}[ht]
+
+	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.7\textwidth]{figures/Y-天数散点.png} 
-		\caption{Y染色体浓度-怀孕天数散点图}
-		\label{Y-天数散点}
+		\subcaptionbox{Y-BMI散点图\label{Y-BMI散点图}}
+		{\includegraphics[width=.45\textwidth]{figures/Y-BMI散点图.png}}
+		\hfill % 让两个子图尽可能分开
+		\subcaptionbox{Y-天数散点图\label{Y-天数散点图}}
+		{\includegraphics[width=.45\textwidth]{figures/Y-天数散点.png}}
+		\caption{Y染色体浓度相关分析}
+		\label{fig:Y染色体浓度与其他数据}
 	\end{figure}
-	通过散点图可知Y染色体浓度与怀孕天数无明显的线性关系。
+
 
 
 	绘制Y染色体浓度的分布直方图，观察分布直方图，发现Y染色体浓度分布近似于正态分布。通过Q-Q图进行检验
@@ -364,7 +362,29 @@
 	利用数据集中的部完整数据。
 
 
+	\subsection{问题二的思路分析}
 
+	\subsection{数据预处理}
+
+	\subsubsection{有效数据筛选}
+
+	对低质量样本进行剔除。要求高质量样本满足以下条件：
+	\begin{itemize}[itemindent=2em]
+		\item \textbf{原始读段数 $\geq 3000000$:} 意义
+		\item \textbf{唯一比对读段数 $\geq 2500000$:} 意义
+		\item \textbf{参考基因组上比对的比例 $\geq 75\%$:} 意义
+		\item \textbf{重复读段比例 $\leq 5\%$:} 意义
+		\item \textbf{被过滤掉读段数比例 $\geq 3000000$:} 意义
+		\item \textbf{GC 含量偏离在 0.4-0.6 范围内不大，即认为正常:} 
+	\end{itemize}
+
+	\subsubsection{目标数据获取}
+
+
+	目标数据获取：
+
+
+	\subsection{决策树模型建立}
 
 
 
@@ -516,7 +536,7 @@
 	利用ROC曲线进行阈值选择。确定阈值为0.1337625
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=0.5\textwidth]{figures/ROC曲线.png} 
+		\includegraphics[width=0.3\textwidth]{figures/ROC曲线.png} 
 		\caption{ROC曲线图}
 		\label{ROC曲线}
 	\end{figure}
@@ -537,6 +557,8 @@
 
 	\begin{table}[!ht]
 		\centering
+		\caption{模型检验}
+		\label{模型检验}
 		\begin{tabular}{|l|l|l|}
 		\hline
 			模型检验 & 结果 & 解释 \\ \hline
@@ -552,12 +574,7 @@
 
 	
 	
-
-
-
-
-
-	\subsection{模型微调}
+	\subsection{模型优化}
 
 	为探索变量间复杂的交互效应，我们基于生物学常识引入了‘年龄与BMI的交互项’（$Z_{\text{年龄}} \times Z_{\text{孕妇BMI}}$）进行测试。结果表明，
 	该交互项效应不具有统计学意义（$p=0.112$）。根据模型简洁性原则，我们最终保留了不含交互项的初始模型，该模型具有更佳的稳
@@ -623,11 +640,12 @@
 	\end{equation*}
 
 
+	\subsection{结果分析}
 
 	\begin{table}[H]
 	\centering
 	\caption{训练集与测试集混淆矩阵对比}
-	\label{tab:combined_confusion_matrix}
+	\label{训练集与测试集混淆矩阵对比}
 		\begin{tabular}{|c|c|c|c|c|}
 		\hline
 		\multirow{2}{*}{数据集} & \multirow{2}{*}{实测 \textbackslash 预测} & \multicolumn{2}{c|}{预测类别} & \multirow{2}{*}{行总计} \\ \cline{3-4}
@@ -645,7 +663,7 @@
 	\begin{table}[H]
 	\centering
 	\caption{训练集与测试集性能指标对比}
-	\label{tab:combined_performance_metrics}
+	\label{训练集与测试集性能指标对比}
 	\renewcommand{\arraystretch}{2.2} % 增加行高
 		\begin{tabular}{|l|c|c|c|}
 		\hline
@@ -688,11 +706,7 @@
 
 	
 	% ... 后续问题类似 ...
-	\section{模型的分析与检验}
-	\subsection{灵敏度分析}
-	...
-	\subsection{误差分析}
-	...
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{模型的评价与推广}
 	\subsection{模型的优点}
