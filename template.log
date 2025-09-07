@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.11)  7 SEP 2025 12:53
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.8.11)  7 SEP 2025 14:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -937,8 +937,7 @@ File: ppxetex.def 2025/01/30 v0.6e Pdfpages driver for XeTeX (AM)
 \AM@lof@heading=\toks48
 \c@AM@survey=\count407
 \AM@templatesizebox=\box92
-)
-No file template.aux.
+) (./template.aux)
 \openout1 = `template.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -1013,6 +1012,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> TU/Arial(0)/b/n on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/CourierNew(0)/b/n on input line 27.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -1057,14 +1057,11 @@ Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count408
 Package hyperref Info: Link coloring ON on input line 27.
+ (./template.out) (./template.out)
 \@outlinefile=\write5
 \openout5 = `template.out'.
 
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
-(d:/texlive/2025/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+ (d:/texlive/2025/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
  (d:/texlive/2025/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
 Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
@@ -1099,17 +1096,10 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 [3]
 
-LaTeX Warning: Reference `tab:符号说明' on page 1 undefined on input line 186.
-
-
-
 [4]
 Underfull \hbox (badness 10000) in alignment at lines 238--238
 [][] 
  []
-
-
-LaTeX Warning: Reference `Y染色体相关系数' on page 1 undefined on input line 246.
 
 
 
@@ -1137,25 +1127,25 @@ File: figures/广义可加结果.png Graphic file (type bmp)
 
 [9]
 
-LaTeX Warning: Reference `量化处理' on page 1 undefined on input line 465.
-
-
-
 [10]
 
 [11]
-File: figures/ROC曲线.png Graphic file (type bmp)
-<figures/ROC曲线.png>
-
 
 [12]
 
 [13]
+File: figures/ROC曲线.png Graphic file (type bmp)
+<figures/ROC曲线.png>
+
 
 [14]
 
+[15]
+
+[16]
+
 LaTeX Font Warning: Font shape `TU/SimSun(1)/m/it' undefined
-(Font)              using `TU/SimSun(1)/m/n' instead on input line 724.
+(Font)              using `TU/SimSun(1)/m/n' instead on input line 859.
 
 (./template.bbl
 
@@ -1163,15 +1153,15 @@ Package natbib Warning: Empty `thebibliography' environment on input line 14.
 
 )
 
-[15] (d:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+[17] (d:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 759.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 894.
  (./code/q1.m) (d:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (./code/q2.py)
 
-[16] (./template.aux)
+[18] (./template.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2022/08/05>
@@ -1179,9 +1169,6 @@ L3 programming layer <2022/08/05>
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-
-LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
@@ -1192,16 +1179,16 @@ Package rerunfilecheck Warning: File `template.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `template.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  06FCD16E4B2CF38921546DBF20851C88;5085.
+(rerunfilecheck)             Before: FCC6F990328A5C3FB842A769026AF493;6499
+(rerunfilecheck)             After:  BC4D805E682D0D9F2F061CB40279D8DD;6679.
  ) 
 Here is how much of TeX's memory you used:
- 35123 strings out of 475796
- 730673 string characters out of 5774033
- 1300031 words of memory out of 5000000
- 57368 multiletter control sequences out of 15000+600000
+ 35169 strings out of 475796
+ 732432 string characters out of 5774033
+ 1302194 words of memory out of 5000000
+ 57408 multiletter control sequences out of 15000+600000
  573069 words of font info for 168 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  108i,12n,125p,1801b,1797s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on template.pdf (16 pages).
+Output written on template.pdf (18 pages).

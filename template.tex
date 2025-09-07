@@ -386,6 +386,138 @@
 
 	\subsection{决策树模型建立}
 
+	用回归树把BMI空间按对预测W首次达标时间进行有区间划分，
+
+	\subsubsection{依据BMI进行分组}
+
+	以孕妇的 BMI 为分组变量，通过 回归树（DecisionTreeRegressor） 学习数据中“BMI与
+	达标孕周时间之间的非线性关系，根据 最小化组内方差 的原则，自动找到 BMI 的分裂点，把
+	孕妇划分成不同的 BMI 区间。每个叶节点就是一个 BMI 分组。
+
+	\subsubsection{选择最佳NIPT时点}
+
+
+
+% ==== 事件指示 ====
+
+	\begin{equation*}  
+		\delta_i = 1 - c_i
+	\end{equation*}
+
+% ==== 节点样本集合 ====
+	\begin{equation*}
+		\mathcal{D}_j = \{(X_i,T_i,\delta_i)\in\mathcal{D}:\ X_i\in I_j\}
+	\end{equation*}
+
+% ==== 树划分左右子集 ====
+	\begin{equation*}
+		L(s)=\{i: X_i\le s\},\qquad R(s)=\{i: X_i> s\}
+	\end{equation*}
+
+% ==== 最优分割点 ====
+	\begin{equation*}
+		s^*=\arg\min_s\ \sum_{i\in L(s)}(T_i-\bar T_{L})^2 + \sum_{i\in R(s)}(T_i-\bar T_{R})^2
+	\end{equation*}
+
+% ==== 区间递归关系 ====
+	\begin{equation*}
+		I_{j,\text{left}} = (l_j,\,\theta_j],\qquad I_{j,\text{right}} = (\theta_j,\,u_j)
+	\end{equation*}
+
+% ==== 样本分配判据 ====
+	\begin{equation*}
+		i\in \mathcal{D}_j \;\;\Leftrightarrow\;\; l_j < X_i \le u_j
+	\end{equation*}
+
+
+
+
+
+
+
+
+
+	\subsection{基于决策树的蒙特卡洛模拟}
+
+
+	
+	\subsubsection{依据BMI进行分组}
+
+	分组依据是 BMI，采用 决策树（CART），依据“信息增益”或“基尼指数”来分裂节点。
+	具体实现：
+	首先，初分组使用 BMI 单变量建树去区分事件是否发生；
+	然后，对分组进行两层筛选（说清楚为什么这么筛）：
+	样本数量约束：每组满足数据总量在[20,200]，分析理由；
+	BMI区间间隔约束：若两个子组BMI平均值间隔<2，认为其分析理由，则不拆分子组，保持合并；
+
+
+	\subsubsection{选择最佳NIPT时点}
+
+	首先，对每个分组，计算Kaplan–Meier 生存函数，统计累计达标率，并定义综合评价
+	模型，步骤和使用参数与问题二方法一一致；然后，若向量两组的最优时点差异太小，通
+	过移动BMI边界调整分组，直到差异收敛。
+
+% ==== Kaplan–Meier 生存函数 ====
+	\begin{equation*}
+		\hat S_j(t) = \prod_{t_k \le t} \Big(1 - \tfrac{d_k}{n_k}\Big)
+	\end{equation*}
+
+% ==== 覆盖率 ====
+	\begin{equation*}
+		C_j(t) = 1 - \hat S_j(t)
+	\end{equation*}
+
+
+
+% ==== 时间归一化 ====
+	\begin{equation*}
+		r(t) = \frac{t-t_{\min}}{t_{\max}-t_{\min}}
+	\end{equation*}
+
+% ==== 目标函数 ====
+	\begin{equation*}
+		f_j(t)=\alpha\, C_j(t) + (1-\alpha)\big(1-r(t)^p\big)
+	\end{equation*}
+	
+% ==== 最佳时点 ====
+	\begin{equation*}
+		t_j^* = \arg\max_{t \in \mathcal{T}_j} f_j(t)
+	\end{equation*}
+
+
+\begin{itemize}
+    \item 其中 $\text{Coverage}(t)$ = 截止孕周 $t$ 已达标的比例（越大越好，表示检测成功率高）。
+    \item 第二项是"风险递减函数"，孕周越大，风险越高，所以值越小。
+    \item 参数 $\alpha$（如 0.4）控制两者权重。
+    \item \textbf{筛选原则}: 在 70-196 天（10-28 周）区间内，找到使 $f(t)$ 最大的孕周作为 \textbf{最佳检测时点}。
+\end{itemize}
+
+
+最后，在节点j上选择最优时点：{对应公式}其中 $T_j$为被用于枚举的时间点集合（代码中使用 Kaplan–Meier 返回
+的格点 times，也可以改为更细的格点并用插值）。若满足条件的时间点为空，代码退化到取最后观测时间.
+
+
+
+
+
+\subsubsection{分析误差对结果的影响}
+
+在建模过程中，我们假设Y染色体浓度的观测值存在测序误差。该误差来源于测序平台的噪声、样本提取的批次效应及个体差异。
+若直接使用观测值来判断“首次达标时间”，可能导致阈值附近的判断偏差，从而影响分组与最佳检测时点的推荐。
+经统计检验我们发现观测误差具有更厚的尾部，更符合t 分布特征。这意味着极端偏差出现的概率更高。
+为此，我们采用蒙特卡洛模拟方法。
+
+\begin{enumerate}
+    \item 对每个孕妇样本，设实际观测值为 $\mu$，误差项 $\epsilon \sim t_\nu(0, \sigma)$，其中自由度 $\nu$ 与尺度参数 $\sigma$ 由样本拟合得到。于是模拟观测值为
+    \[
+    \tilde{Y} = \mu + \epsilon, \quad \epsilon \sim t_\nu(0, \sigma).
+    \]
+\end{enumerate}
+
+进行500次重复采样，每次从上述误差分布中独立抽取误差值，叠加到实际观测值，计算出模拟观测值；
+在不改变BMI分组的前提下，利用模拟观测值重复最佳时点选择过程，获得受检查误差影响的选择结果。
+
+然后使用蒙特卡洛模拟，对观测到的Y染色。
 
 
 
