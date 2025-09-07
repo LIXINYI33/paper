@@ -287,14 +287,24 @@
 	\end{figure}
 
 
-
-
-
-
+	\subsection{模型建立}
 	考虑到数据集中存在多次检测和重复检测的数据，因此部分数据会嵌套相关联于同一个病人。且数据直接没有显著的线性相关性。
-	我们采用广义可见模型对Y染色体浓度与多个自变量进行建模
+	我们采用广义可见模型对Y染色体浓度与多个自变量进行建模。广义可加模型是广义线性模型的一种灵活扩展。将响应变量的期望值
+	与预测变量之间的线性关系，转化为平滑的非线性关系。其中$\mu $为响应变量 ，$g(\mu)$ 为链接函数,$f_{j}(X_{j})$ 为平滑函数。
+
+	\begin{equation}
+	g(\mu) = \beta_0 + \sum_{j=1}^{p} f_{j}(X_{j})
+	\end{equation}
 
 
+	每个平滑函数 $f_{j}(X_{j})$ 都是一个未知形式的函数，它从数据中学习变量 $X_{j}$ 与响应变量之间的关系。
+	利用链接函数将响应变量的分布与加性预测器联系起来。
+
+
+
+
+
+	\subsection{模型求解}
 
 	\begin{table}[H]
 	\centering
@@ -315,16 +325,17 @@
 		\end{tabular}
 	\end{table}
 
+
+
+
+
 	
-\begin{equation*}  
-    R^{2}=1-\dfrac{D_{model}}{D_{null}}
-\end{equation*}
+	
+	
 
-
-
-
-
-
+	
+	\subsection{求解结果与分析}
+	
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=0.7\textwidth]{figures/广义可加结果.png} 
@@ -332,53 +343,8 @@
 		\label{广义可加结果}
 	\end{figure}
 
-	这个GAM模型揭示了数据中存在复杂的非线性模式，变量年龄，身高，怀孕天数，孕妇BMI
+		这个GAM模型揭示了数据中存在复杂的非线性模式，变量年龄，身高，怀孕天数，孕妇BMI
 	与Y染色体浓度存在非线性相关性。怀孕次数和生产次数与Y染色体浓度相关性较弱。
-
-
-
-
-%%%
-
-
-
-
-%%%
-
-
-
-
-
-	\subsection{模型建立}
-	在频率学派假设检验的理论体系下，原假设和备择假设的地位存在差异，本问题中企业
-对于拒收与接收的态度也存在差异，故可以利用假设检验的思想处理该问题[1]。而(1)和(2)
-两个情形下，不仅仅只有显著性水平的差别，原假设与备择假设互相相反，故在下文中分开
-对两个情景进行讨论。
-	\begin{lemma}
-		这是一个引理...
-	\end{lemma}
-	\begin{definition}
-		这是一个定义...
-	\end{definition}
-	
-	% 建议：使用 \[...\] 代替 $$...$$
-
-
-
-
-
-
-	\begin{equation*}
-		w_{1}Cn - w_{2}\int_{0}^{1} f(p) K(n, p)  \mathrm{d}p
-	\end{equation*}
-	
-
-	
-	
-
-	
-	\subsection{求解结果与分析}
-	...
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\section{问题二的模型建立与求解}
@@ -454,24 +420,6 @@
 
 
 
-	\begin{equation}
-	h(x) = \sigma(z) = \sigma(w^\top x + b) = \frac{1}{1 + e^{-(w^\top x + b)}}
-	\end{equation}
-
-	\begin{equation}
-	P(y=1 \mid x)
-	\end{equation}
-
-
-	单个样本的损失函数为：
-	\begin{equation}
-	L(y, h(x)) = - [y \cdot \log(h(x)) + (1 - y) \cdot \log(1 - h(x))]
-	\end{equation}
-
-
-
-
-
 
 
 	\subsection{数据预处理}
@@ -485,8 +433,8 @@
 		\item 原始读段数 >= 3000000
 		\item 唯一比对读段数 ≥ 2,500,000
 		\item 参考基因组上比对的比例 ≥ 75\%
-		\item 重复读段比例(duplicate) ≤ 5\%
-		\item 被过滤掉读段数比例(filtered) ≤ 5\%
+		\item 重复读段比例 ≤ 5\%
+		\item 被过滤掉读段数比例 ≤ 5\%
 		\item GC 含量偏离在 0.4-0.6 范围内不大，即认为正常.
 	\end{itemize}
 
@@ -564,7 +512,16 @@
 	P = \frac{1}{1 + e^{-\mathrm{Logit}(P)}}
 	\end{equation*}
 
-	$P\geq0.1337625 $，认为异常。
+
+	利用ROC曲线进行阈值选择。确定阈值为0.1337625
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.5\textwidth]{figures/ROC曲线.png} 
+		\caption{ROC曲线图}
+		\label{ROC曲线}
+	\end{figure}
+
+	当$P\geq0.1337625 $，认为异常。
 
 
 	回归系数
@@ -590,12 +547,7 @@
 	\end{table}
 
 
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=0.5\textwidth]{figures/ROC曲线.png} 
-		\caption{ROC曲线图}
-		\label{ROC曲线}
-	\end{figure}
+
 
 
 	
@@ -664,8 +616,68 @@
 	这一发现揭示了孕妇年龄与异常风险之间复杂的非线性关系，为临床咨询和风
 	险评估提供了更精确的科学依据。
 
+	增加年龄平方项后的Logistic回归结果
+	\begin{equation*}
+	\label{logit2}
+	\text{Logit}(P) = 2.874 + 0.955 \cdot x_{1} - 0.887 \cdot x_{2} + 0.470 \cdot x_{3} - 0.476 \cdot x_{4} - 4.847 \cdot x_{5} +4.729 \cdot x^{2}_{5}
+	\end{equation*}
 
 
+
+	\begin{table}[H]
+	\centering
+	\caption{训练集与测试集混淆矩阵对比}
+	\label{tab:combined_confusion_matrix}
+		\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\multirow{2}{*}{数据集} & \multirow{2}{*}{实测 \textbackslash 预测} & \multicolumn{2}{c|}{预测类别} & \multirow{2}{*}{行总计} \\ \cline{3-4}
+		& & 正常 (0) & 异常 (1) & \\ \hline
+		\multirow{4}{*}{训练集} & 真实正常 (0) & 374 (TN) & 13 (FP) & 387 \\ \cline{2-5}
+		& 真实异常 (1) & 57 (FN) & 34 (TP) & 91 \\ \cline{2-5}
+		& 列总计 & 431 & 47 & 478 \\ \hline
+		\multirow{4}{*}{测试集} & 真实正常 (0) & 100 (TN) & 5 (FP) & 105 \\ \cline{2-5}
+		& 真实异常 (1) & 10 (FN) & 10 (TP) & 20 \\ \cline{2-5}
+		& 列总计 & 110 & 15 & 125 \\ \hline
+		\end{tabular}
+	\end{table}
+
+
+	\begin{table}[H]
+	\centering
+	\caption{训练集与测试集性能指标对比}
+	\label{tab:combined_performance_metrics}
+	\renewcommand{\arraystretch}{2.2} % 增加行高
+		\begin{tabular}{|l|c|c|c|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{指标}} & \multicolumn{1}{c|}{\textbf{计算公式}} & \multicolumn{1}{c|}{\textbf{训练集}} & \multicolumn{1}{c|}{\textbf{测试集}} \\ 
+		\hline
+		总体准确率 & $\dfrac{TP + TN}{TP + TN + FP + FN}$ & 85.4\% & 88.0\% \\ 
+		\hline
+		敏感性（召回率） & $\dfrac{TP}{TP + FN}$ & 37.4\% & 50.0\% \\ 
+		\hline
+		特异性 & $\dfrac{TN}{TN + FP}$ & 96.6\% & 95.2\% \\ 
+		\hline
+		精确率 & $\dfrac{TP}{TP + FP}$ & 72.3\% & 66.7\% \\ 
+		\hline
+		F1-Score & $2 \times \dfrac{Precision \times Recall}{Precision + Recall}$ & 49.4\% & 57.2\% \\ 
+		\hline
+		\end{tabular}
+	\end{table}
+
+	模型在训练集上表现出高特异性（96.6\%）和高精确率（72.3\%），但敏感性较
+	低（37.4\%），这意味着模型非常保守，漏诊了很多异常案例，但一旦预测为异
+	常，可信度很高。
+	模型在未知数据上表现甚至优于训练集！总体准确率和敏感性都有所提升。特异性
+	依然极高（95.2\%），而敏感性提升至50\%，这是一个重大的改善。
+
+	预测集的所有关键指标都与训练集相当甚至更好，证明模型没有过拟合，具有很强
+	的泛化到新数据的能力。
+	预测集上50\%的敏感性是一个重要成果。它意味着模型能识别出一半的真实异常病
+	例，这对于初步筛查来说具有重要价值，可以大大减少漏诊。
+	95\%以上的特异性意味着模型“虚惊一场”的假警报很少，这可以避免给大量孕妇带
+	来不必要的心理压力和进一步的创伤性检查。
+	这是一个非常实用的筛查模型。它的特点是“宁可漏诊，也不错报”，但即便如此，也
+	成功捕捉到了50\%的异常案例，为高风险人群的早期发现提供了有力工具。
 
 
 
@@ -694,6 +706,15 @@
 		\item 缺点1：假设条件较强，在...情况下可能失效。
 		\item 缺点2：未考虑...因素，与实际情况存在一定偏差。
 	\end{itemize}
+
+
+
+	\begin{lemma}
+		这是一个引理...
+	\end{lemma}
+	\begin{definition}
+		这是一个定义...
+	\end{definition}
 	
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%% 参考文献

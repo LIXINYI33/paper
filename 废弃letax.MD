@@ -168,3 +168,63 @@ Prob > F  & 0.0000 \\
 		\caption{染色体相关系数分析矩阵}
 		\label{fig:双图}
 	\end{figure}
+
+
+	\begin{table}[H]
+	\centering
+	\caption{混淆矩阵}
+	\label{tab:confusion_matrix}
+		\begin{tabular}{|c|c|c|c|}
+		\hline
+		\multirow{2}{*}{实测 \textbackslash 预测} & \multicolumn{2}{c|}{预测类别} & \multirow{2}{*}{行总计} \\ \cline{2-3}
+		& 正常 (0) & 异常 (1) & \\ \hline
+		真实正常 (0) & 374 (TN) & 13 (FP) & 387 \\ \hline
+		真实异常 (1) & 57 (FN) & 34 (TP) & 91 \\ \hline
+		列总计 & 431 & 47 & 478 \\ \hline
+		\end{tabular}
+	\end{table}
+
+
+	\begin{table}[H]
+	\centering
+	\caption{模型性能指标}
+	\label{tab:performance_metrics}
+		\begin{tabular}{|l|c|}
+		\hline
+		\multicolumn{1}{|c|}{指标} & 值 \\ \hline
+		总体准确率 & 85.4\% \\ \hline
+		敏感性（召回率） & 37.4\% \\ \hline
+		特异性 & 96.6\% \\ \hline
+		精确率 & 72.3\% \\ \hline
+		\end{tabular}
+	\end{table}
+
+
+	\begin{table}[H]
+	\centering
+	\caption{混淆矩阵}
+	\label{tab:confusion_matrix}
+		\begin{tabular}{|c|c|c|c|}
+		\hline
+		\multirow{2}{*}{实测 \textbackslash 预测} & \multicolumn{2}{c|}{预测类别} & \multirow{2}{*}{行总计} \\ \cline{2-3}
+		& 正常 (0) & 异常 (1) & \\ \hline
+		真实正常 (0) & 374 (TN) & 13 (FP) & 387 \\ \hline
+		真实异常 (1) & 57 (FN) & 34 (TP) & 91 \\ \hline
+		列总计 & 431 & 47 & 478 \\ \hline
+		\end{tabular}
+	\end{table}
+
+	\begin{table}[H]
+	\centering
+	\caption{模型性能指标}
+	\label{tab:performance_metrics}
+		\begin{tabular}{|l|c|}
+		\hline
+		\multicolumn{1}{|c|}{指标} & 值 \\ \hline
+		总体准确率 & 88.0\% \\ \hline
+		敏感性（召回率） & 50.0\% \\ \hline
+		特异性 & 95.2\% \\ \hline
+		精确率 & 66.7\% \\ \hline
+		F1-Score & 57.2\% \\ \hline
+		\end{tabular}
+	\end{table}
